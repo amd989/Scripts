@@ -1,0 +1,10 @@
+[Unit]
+Description=Access Point for 3G Modem
+
+[Service]
+ExecStart=/root/ap start
+ExecReload=/root/ap stop | /root/ap start
+ExecStop=/root/ap stop
+
+[Install]
+WantedBy=multi-user.target

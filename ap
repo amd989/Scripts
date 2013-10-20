@@ -1,0 +1,24 @@
+#!/bin/sh
+# it is common to write start stop scripts in the bourne shell
+# for scripts which are started after all file systems are mounted it doesn't
+# really matter. For scripts which are started before, you could end up with
+# a problem if that shell is located on a filesystem different than "/"
+
+case $1 in
+start) # your code to start the service
+wvdialconf
+sleep 2
+modprobe usbserial vendor=0x12d1 product=0x1003
+sleep 2
+wvdial movistar &
+sleep 5
+ip link set wlan0 up
+/root/create_ap wlan0 ppp0 WiPi showmethemoney
+sleep 5
+# echo 1 > /sys/class/leds/rt2800usb-phy0\:\:assoc/brightness
+;;
+stop) # your code to stop the service
+# echo 0 > /sys/class/leds/rt2800usb-phy0\:\:assoc/brightness
+ip link set wlan0 down
+killall wvdial
+esac

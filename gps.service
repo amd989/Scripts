@@ -1,0 +1,12 @@
+[Unit]
+Description=GPS Location
+Wants=gpsd.service
+After=gpsd.service network.service
+
+[Service]
+ExecStart=/root/gps start
+ExecReload=/root/gps stop | /root/gps start
+ExecStop=/root/gps stop
+
+[Install]
+WantedBy=multi-user.target
